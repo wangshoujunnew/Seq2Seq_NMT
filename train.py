@@ -34,10 +34,11 @@ run_config = tf.estimator.RunConfig(
     save_checkpoints_steps=500,
     log_step_count_steps=10)
 
+# Estimator 无需使用placeholder、session，计算结果能够立即得出
 seq2seq_esti = tf.estimator.Estimator(
-    model_fn=seq2seq_model,
+    model_fn=seq2seq_model, # 使用的模型
     config=run_config,
-    params=params)
+    params=params) # 超参数
 
 seq2seq_esti.train(
     input_fn=input_fn,

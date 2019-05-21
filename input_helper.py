@@ -27,8 +27,8 @@ def make_input_fn(
 
     def sampler():
         while True:
-            with open(input_filename) as finput:
-                with open(output_filename) as foutput:
+            with open(input_filename,encoding='utf-8',mode='r') as finput:
+                with open(output_filename,encoding='utf-8',mode='r') as foutput:
                     for in_line in finput:
                         out_line = foutput.readline()
                         yield {
@@ -62,13 +62,13 @@ def make_input_fn(
 def predict_input_fn(input_filename, vocab, input_process=tokenize_and_map):
     max_len = 0.
 
-    with open(input_filename) as finput:
+    with open(input_filename,encoding='utf-8',mode='r') as finput:
         for in_line in finput:
             max_len = max(len(in_line.split(" ")), max_len)
 
     predict_lines = np.empty(max_len + 1, int)
 
-    with open(input_filename) as finput:
+    with open(input_filename,encoding='utf-8',mode='r') as finput:
         for in_line in finput:
             in_line = in_line.lower()
             new_line_tmp = np.array(input_process(in_line, vocab), dtype=int)
@@ -84,7 +84,7 @@ def predict_input_fn(input_filename, vocab, input_process=tokenize_and_map):
 
 def load_vocab(filename):
     vocab = {}
-    with open(filename) as f:
+    with open(filename,encoding='utf-8',mode='r') as f:
         for idx, line in enumerate(f):
             tmp_val = (line.strip(" \n")).split("=")
             vocab[tmp_val[0]] = int(tmp_val[1])

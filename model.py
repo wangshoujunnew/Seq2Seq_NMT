@@ -11,6 +11,14 @@ UNK_TOKEN = 2
 
 
 def seq2seq_model(features, labels, mode, params):
+    """
+    model_fn参数
+    :param features:
+    :param labels: dict
+    :param mode: 训练,验证,测试
+    :param params: 超参数
+    :return: EstimatorSpec
+    """
     vocab_size = params['vocab_size']
     embed_dim = params['embed_dim']
     num_units = params['num_units']
@@ -23,6 +31,7 @@ def seq2seq_model(features, labels, mode, params):
     start_tokens = tf.zeros([batch_size], dtype=tf.int64)
     input_lengths = tf.reduce_sum(tf.to_int32(tf.not_equal(inp, 1)), 1)
 
+    # 对输入序列数据的嵌入工作 , layers.embed_sequence
     input_embed = layers.embed_sequence(
         inp, vocab_size=vocab_size, embed_dim=embed_dim, scope='embed')
 
